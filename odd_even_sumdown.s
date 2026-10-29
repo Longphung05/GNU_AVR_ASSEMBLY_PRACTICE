@@ -38,7 +38,7 @@ ldi r24, hi8(c)
 push r24
 lds r24, num_rows
 push r24
-lds num_cols
+lds r24, num_cols
 push r24
 
 call elementwise
@@ -98,12 +98,12 @@ loop_done:
 sumdown:
     push r28
     push r29
-    in r28, OX3D ; setting Y to SP (for using Y+...)
+    in r28, 0X3D ; setting Y to SP (for using Y+...)
     in r29, 0x3E 
 
     ldd r24, Y+5 ; the value pushed in my r24 in element wise, which is c[row][column]
     cpi r24, 0 ;if r24 is 0 then return 0, but r24 is alr 0 if its 0 so we dont have to ldi it or anything
-    breq sd_end
+    breq sd_done
 
     mov r23, r24
     andi r23, 1 ;comparing it to 1, if odd number itll be 1, which means itll set Z flag as 0, if not then itll be 0 for Z flag
@@ -132,3 +132,5 @@ sd_done:
     pop r29
     pop r28
     ret
+
+.end
